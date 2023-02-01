@@ -1,5 +1,6 @@
 from flaskr import create_app
-from modelos.modelos import db, Evento
+from datetime import datetime
+from .modelos import db, Evento, Usuario, EventoSchema, UsuarioSchema
 
 app = create_app('default')
 app_context = app.app_context()
@@ -10,14 +11,21 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+    evento_schema = EventoSchema()
+    usuario_schema = UsuarioSchema()
     e = Evento(nombre='nombre',
                categoria='CURSO',
                lugar="lugar",
                direccion="direccion",
-               fecha_creacion="01-01-2023",
-               fecha_inicio="02-01-2023",
-               fecha_fin="03-01-2023",
+               fecha_creacion=datetime(2020, 5, 17),
+               fecha_inicio=datetime(2020, 5, 17),
+               fecha_fin=datetime(2020, 5, 17),
                modalidad="PRESENCIAL")
-    db.session.add(e)
+    u = Usuario(nombre_usuario="nombre usuario",
+                contrasena="1234")
+
+    u.eventos.append(e)
+    db.session.add(u)
     db.session.commit()
-    print(Evento.query.all())
+
+    print([usuario_schema.dumps(usuario) for usuario in Usuario.query.all()])
