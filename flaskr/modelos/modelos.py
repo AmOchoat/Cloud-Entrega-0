@@ -30,19 +30,20 @@ class Evento(db.Model):
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre_usuario = db.Column(db.String(50))
+    nombre= db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
     eventos = db.relationship('Evento', cascade='all, delete, delete-orphan')
 
 class EnumADiccionario(fields.Field):
-    def _serialize(self, value, atrr, obj, **kwargs):
+    def _serialize(self, value, attr, obj, **kwargs):
         if value is None:
             return None
-        return {'llave':value.name, 'valor':value.value}
+        return {"llave": value.name, "valor": value.value}
+
 
 class EventoSchema(SQLAlchemyAutoSchema): 
-    categoria = EnumADiccionario(attribute='categoria')
-    modalidad = EnumADiccionario(attribute='modalidad')
+    categoria = EnumADiccionario(attribute=("categoria"))
+    modalidad = EnumADiccionario(attribute=("modalidad"))
     class Meta:
         model = Evento
         include_relationships = True
