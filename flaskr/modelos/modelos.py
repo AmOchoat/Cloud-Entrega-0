@@ -42,8 +42,8 @@ class EnumADiccionario(fields.Field):
 
 
 class EventoSchema(SQLAlchemyAutoSchema): 
-    categoria = EnumADiccionario(attribute=("categoria"))
-    modalidad = EnumADiccionario(attribute=("modalidad"))
+    categoria = EnumADiccionario(attribute=('categoria'))
+    modalidad = EnumADiccionario(attribute=('modalidad'))
     class Meta:
         model = Evento
         include_relationships = True

@@ -56,18 +56,18 @@ class VistaEventosUsuario(Resource):
     @jwt_required()
     def post(self, id_usuario):
         nuevo_evento = Evento(nombre=request.json['nombre'],
-                             categoria=request.json['categoria'],
+                             categoria="CURSO",
                              lugar=request.json['lugar'],
                              direccion=request.json['direccion'],
                              fecha_creacion=datetime.strptime(request.json['fecha_creacion'], '%m-%d-%Y'),
                              fecha_inicio=datetime.strptime(request.json['fecha_inicio'], '%m-%d-%Y'),
                              fecha_fin=datetime.strptime(request.json['fecha_fin'], '%m-%d-%Y'),
-                             modalidad=request.json['modalidad']
+                             modalidad="VIRTUAL"
                              )
         usuario = Usuario.query.get_or_404(id_usuario)
         usuario.eventos.append(nuevo_evento)
-
-        return "Usuario Creado" #evento_schema.dump(nuevo_evento)
+        db.session.commit()
+        return evento_schema.dump(nuevo_evento)
 
     @jwt_required()
     def get(self, id_usuario):
