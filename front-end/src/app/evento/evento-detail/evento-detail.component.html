@@ -1,0 +1,21 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-12 text-center mb-2" >
+      <label class="fs-4 fw-bold">Evento: {{evento.id}} ({{evento.nombre}})</label>
+      <button *ngIf="evento" type="button" class="btn btn-outline-success ms-3 me-2" (click)="goToEdit()" title="Editar evento">Editar Evento<i class="bi bi-pencil-square"></i></button>
+      <button *ngIf="evento" type="button" class="btn btn-outline-danger me-1" (click)="eliminarEvento()" title="Eliminar evento">Eliminar Evento<i class="bi bi-trash-fill"></i></button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <p><span class="fw-bold">Información: </span></p>
+          <p>Nombre: {{evento.nombre}} Lugar:{{evento.lugar}} Lugar:{{evento.modalidad}}</p>
+          <p>Categoría: {{evento.categoria.llave}} Evento:{{evento.modalidad.llave}}</p>
+        </div>
+      </div>
+    </div>
+</div>

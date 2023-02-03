@@ -1,0 +1,66 @@
+<app-header></app-header>
+<div class="container my-4">
+  <div class="row">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-10 text-center">
+              <label class="fs-4">Eventos</label>
+            </div>
+            <div class="col-2 text-center">
+              <button type="button" class="my-1 btn btn-outline-primary btn-circle" (click)="irCrearEvento()">Crear Evento<i class="bi bi-plus-lg"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover mb-0" aria-describedby="colecName">
+            <thead>
+              <tr>
+                <th>Evento Id</th>
+                <th>Nombre</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Fecha Categoria</th>
+                <th>Fecha Modalidad</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let evento of mostrarEventos; index as i" (click)="onSelect(evento, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
+                  <td >{{evento.id}}</td>
+                  <td >{{evento.nombre}}</td>
+                  <td >{{evento.fecha_inicio}}</td>
+                  <td >{{evento.fecha_fin}}</td>
+                  <td >{{evento.categoria.llave}}</td>
+                  <td >{{evento.modalidad.llave}}</td>
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <app-evento-detail (deleteEvento)="eliminarEvento()" [evento]="eventoSeleccionado"></app-evento-detail>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>

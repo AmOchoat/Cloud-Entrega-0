@@ -141,7 +141,7 @@ cython_debug/
 .vscode
 
 #DataBase
-test.db
+*.db
 
 #Node
 node_modules/

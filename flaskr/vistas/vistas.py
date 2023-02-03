@@ -55,6 +55,7 @@ class VistaEventosUsuario(Resource):
 
     @jwt_required()
     def post(self, id_usuario):
+        print(request.json)
         nuevo_evento = Evento(nombre=request.json['nombre'],
                              categoria="CURSO",
                              lugar=request.json['lugar'],
@@ -75,14 +76,15 @@ class VistaEventosUsuario(Resource):
         return [evento_schema.dump(evento) for evento in usuario.eventos]
 
 class VistaLogIn(Resource):
+
     def post(self):
-            u_nombre = request.json["nombre"]
-            u_contrasena = request.json["contrasena"]
-            usuario = Usuario.query.filter_by(nombre=u_nombre, contrasena = u_contrasena).all()
-            if usuario:
-                return {'mensaje':'Inicio de sesión exitoso'}, 200
-            else:
-                return {'mensaje':'Nombre de usuario o contraseña incorrectos'}, 401
+        usuario = Usuario.query.filter(Usuario.nombre == request.json["nombre"], Usuario.contrasena == request.json["contrasena"]).first()
+        db.session.commit()
+        if usuario is None:
+            return "El usuario no existe", 404
+        else:
+            token_de_acceso = create_access_token(identity = usuario.id)
+            return {"mensaje":"Inicio de sesión exitoso", "token": token_de_acceso}
 
 class VistaSignIn(Resource):
 
@@ -91,7 +93,7 @@ class VistaSignIn(Resource):
         token_de_acceso = create_access_token(identity=request.json['nombre'])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return {'mensaje':'Usuario creado exitosamente', 'token_de_acceso': token_de_acceso}
+        return {'mensaje':'Usuario creado exitosamente', 'token': token_de_acceso}
 
     def put(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
